@@ -1,0 +1,4 @@
+可以用
+arm-elf-objdump -d helloworld.o
+查看反汇编
+
