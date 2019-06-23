@@ -1,0 +1,7 @@
+当加载 elf 文件时
+-Ttext 30000000 与 mem_bank: map=M, type=RW, addr=0x30000000 要一致
+当加载 bin 文件时
+-Ttext 30000000 的值 不影响 生成的bin代码,且 mem_bank: map=M, type=RW, addr=0x30000000 可以为任意值
+
+有无 -Thelloworld.lds 对结果的影响:影响 elf,但不影响 bin
+
