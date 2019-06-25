@@ -2,3 +2,5 @@
     hellowrold纯汇编
 2. helloworld_c
     汇编 + helloworld 的 C 实现
+3. boot
+    汇编启动初始化代码 + helloworld 的 C 实现
