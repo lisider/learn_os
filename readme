@@ -4,3 +4,5 @@
     汇编 + helloworld 的 C 实现
 3. boot
     汇编启动初始化代码 + helloworld 的 C 实现
+3. boot_mmu
+    编启动初始化代码 + 开MMU + helloworld 的 C 实现
