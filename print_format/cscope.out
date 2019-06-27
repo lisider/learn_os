@@ -1,0 +1,1529 @@
+cscope 15 $HOME/skyeye/learn_os/print_format               0000008255
+	@/home/suweishuai/skyeye/learn_os/print_format/boot.c
+
+1 (*
+	tš™_func
+)();
+
+3 
+	#UFCON0
+ ((vÞ©ž*)(0x50000020))
+
+	)
+
+5 
+	$h–lowÜld
+(){
+
+6 cÚ¡ *
+p
+="helloworld\n";
+
+7 *
+p
+){
+
+8 *
+UFCON0
+=*
+p
+++;
+
+10 
+	}
+}
+
+12 
+	$‹¡_mmu
+(){
+
+13 cÚ¡ *
+p
+="test_mmu\n";
+
+14 *
+p
+){
+
+15 *(vÞ©ž*)0xd0000020=*
+p
+++;
+
+17 
+	}
+}
+
+19 
+š™_func
+ 
+	gš™
+[]={
+
+20 
+h–lowÜld
+,
+
+25 
+	$¶©_boÙ
+(){
+
+26 
+i
+;
+
+27 
+i
+=0;
+š™
+[i];i++){
+
+28 
+š™
+[
+i
+]();
+
+30 
+	`š™_sys_mmu
+();
+
+31 
+	`¡¬t_mmu
+();
+
+32 
+	`‹¡_mmu
+();
+
+33 
+	`‹¡_´štk
+();
+
+35 
+	}
+}
+
+	@/home/suweishuai/skyeye/learn_os/print_format/mmu.c
+
+2 
+	#PAGE_TABLE_L1_BASE_ADDR_MASK
+ (0xffffc000)
+
+	)
+
+4 
+	#VIRT_TO_PTE_L1_INDEX
+(
+addr
+è((×ddr)&0xfff00000)>>18)
+
+	)
+
+6 
+	#PTE_L1_SECTION_NO_CACHE_AND_WB
+ (0x0<<2)
+
+	)
+
+7 
+	#PTE_L1_SECTION_DOMAIN_DEFAULT
+ (0x0<<5)
+
+	)
+
+8 
+	#PTE_ALL_AP_L1_SECTION_DEFAULT
+ (0x1<<10)
+
+	)
+
+10 
+	#PTE_L1_SECTION_PADDR_BASE_MASK
+ (0xfff00000)
+
+	)
+
+11 
+	#PTE_BITS_L1_SECTION
+ (0x2)
+
+	)
+
+13 
+	#L1_PTR_BASE_ADDR
+ 0x30700000
+
+	)
+
+14 
+	#PHYSICAL_MEM_ADDR
+ 0x30000000
+
+	)
+
+15 
+	#VIRTUAL_MEM_ADDR
+ 0x30000000
+
+	)
+
+16 
+	#MEM_MAP_SIZE
+ 0x800000
+
+	)
+
+17 
+	#PHYSICAL_IO_ADDR
+ 0x48000000
+
+	)
+
+18 
+	#VIRTUAL_IO_ADDR
+ 0xc8000000
+
+	)
+
+19 
+	#IO_MAP_SIZE
+ 0x18000000
+
+	)
+
+21 
+	$¡¬t_mmu
+(){
+
+22 
+‰b
+=
+L1_PTR_BASE_ADDR
+;
+
+24 
+	`asm
+ (
+
+35 : "r" (
+‰b
+)
+
+38 
+	}
+}
+
+40 
+	$g’_l1_±e
+(
+·ddr
+){
+
+41  (
+·ddr
+&
+PTE_L1_SECTION_PADDR_BASE_MASK
+)|\
+
+42 
+PTE_BITS_L1_SECTION
+;
+
+43 
+	}
+}
+
+45 
+g’_l1_±e_addr
+(
+baddr
+,\
+
+46 
+vaddr
+){
+
+47  (
+	gbaddr
+&
+	gPAGE_TABLE_L1_BASE_ADDR_MASK
+)|\
+
+48 
+VIRT_TO_PTE_L1_INDEX
+(
+vaddr
+);
+
+51 
+	$š™_sys_mmu
+(){
+
+52 
+±e
+;
+
+53 
+±e_addr
+;
+
+54 
+j
+;
+
+56 
+j
+=0;j<
+MEM_MAP_SIZE
+>>20;j++){
+
+57 
+±e
+=
+	`g’_l1_±e
+(
+PHYSICAL_MEM_ADDR
++(
+j
+<<20));
+
+58 
+±e
+|=
+PTE_ALL_AP_L1_SECTION_DEFAULT
+;
+
+59 
+±e
+|=
+PTE_L1_SECTION_NO_CACHE_AND_WB
+;
+
+60 
+±e
+|=
+PTE_L1_SECTION_DOMAIN_DEFAULT
+;
+
+61 
+±e_addr
+=
+	`g’_l1_±e_addr
+(
+L1_PTR_BASE_ADDR
+,\
+
+62 
+VIRTUAL_MEM_ADDR
++(
+j
+<<20));
+
+63 *(vÞ©ž*)
+±e_addr
+=
+±e
+;
+
+65 
+j
+=0;j<
+IO_MAP_SIZE
+>>20;j++){
+
+66 
+±e
+=
+	`g’_l1_±e
+(
+PHYSICAL_IO_ADDR
++(
+j
+<<20));
+
+67 
+±e
+|=
+PTE_ALL_AP_L1_SECTION_DEFAULT
+;
+
+68 
+±e
+|=
+PTE_L1_SECTION_NO_CACHE_AND_WB
+;
+
+69 
+±e
+|=
+PTE_L1_SECTION_DOMAIN_DEFAULT
+;
+
+70 
+±e_addr
+=
+	`g’_l1_±e_addr
+(
+L1_PTR_BASE_ADDR
+,\
+
+71 
+VIRTUAL_IO_ADDR
++(
+j
+<<20));
+
+72 *(vÞ©ž*)
+±e_addr
+=
+±e
+;
+
+74 
+	}
+}
+
+	@/home/suweishuai/skyeye/learn_os/print_format/print.c
+
+20 * 
+	tva_li¡
+;
+
+21 
+	#_INTSIZEOF
+(
+n
+è((Ò)+()-1)&~((è- 1è)
+
+	)
+
+22 
+	#va_¡¬t
+(
+­
+,
+v
+èÐ­ = (
+va_li¡
+)&v + 
+	`_INTSIZEOF
+(vè)
+
+	)
+
+23 
+	#va_¬g
+(
+­
+,
+t
+èÐ*Ñ *)(×°+ð
+	`_INTSIZEOF
+Ñ)è- _INTSIZEOFÑ)è)
+
+	)
+
+24 
+	#va_’d
+(
+­
+èÐ­ = (
+va_li¡
+)0 )
+
+	)
+
+26 cÚ¡ *
+	gdig™s
+="0123456789abcdef";
+
+27 
+	gnumb”s
+[68];
+
+29 
+	g´št_buf
+[1024];
+
+31 
+	#FORMAT_TYPE_MASK
+ 0xff00
+
+	)
+
+32 
+	#FORMAT_TYPE_SIGN_BIT
+ 0x0100
+
+	)
+
+33 
+	#FORMAT_TYPE_NONE
+ 0x000
+
+	)
+
+34 
+	#FORMAT_TYPE_CHAR
+ 0x100
+
+	)
+
+35 
+	#FORMAT_TYPE_UCHAR
+ 0x200
+
+	)
+
+36 
+	#FORMAT_TYPE_SHORT
+ 0x300
+
+	)
+
+37 
+	#FORMAT_TYPE_USHORT
+ 0x400
+
+	)
+
+38 
+	#FORMAT_TYPE_INT
+ 0x500
+
+	)
+
+39 
+	#FORMAT_TYPE_UINT
+ 0x600
+
+	)
+
+40 
+	#FORMAT_TYPE_LONG
+ 0x700
+
+	)
+
+41 
+	#FORMAT_TYPE_ULONG
+ 0x800
+
+	)
+
+42 
+	#FORMAT_TYPE_STR
+ 0xd00
+
+	)
+
+43 
+	#FORMAT_TYPE_PTR
+ 0x900
+
+	)
+
+44 
+	#FORMAT_TYPE_SIZE_T
+ 0xb00
+
+	)
+
+46 
+	#FORMAT_TYPE
+(
+x
+è((x)&
+FORMAT_TYPE_MASK
+)
+
+	)
+
+47 
+	#SET_FORMAT_TYPE
+(
+x
+,
+t
+) do{\
+
+48 (
+x
+)&=~
+FORMAT_TYPE_MASK
+;(x)|=(
+t
+);\
+
+49 }0)
+
+	)
+
+50 
+	#FORMAT_SIGNED
+(
+x
+è((x)&
+FORMAT_TYPE_SIGN_BIT
+)
+
+	)
+
+52 
+	#FORMAT_FLAG_MASK
+ 0xffff0000
+
+	)
+
+53 
+	#FORMAT_FLAG_SPACE
+ 0x10000
+
+	)
+
+54 
+	#FORMAT_FLAG_ZEROPAD
+ 0x20000
+
+	)
+
+55 
+	#FORMAT_FLAG_LEFT
+ 0x40000
+
+	)
+
+56 
+	#FORMAT_FLAG_WIDTH
+ 0x100000
+
+	)
+
+58 
+	#FORMAT_FLAG
+(
+x
+è((x)&
+FORMAT_FLAG_MASK
+)
+
+	)
+
+59 
+	#SET_FORMAT_FLAG
+(
+x
+,
+f
+è((x)|=(f))
+
+	)
+
+61 
+	#FORMAT_BASE_MASK
+ 0xff
+
+	)
+
+62 
+	#FORMAT_BASE_O
+ 0x08
+
+	)
+
+63 
+	#FORMAT_BASE_X
+ 0x10
+
+	)
+
+64 
+	#FORMAT_BASE_D
+ 0x0a
+
+	)
+
+65 
+	#FORMAT_BASE_B
+ 0x02
+
+	)
+
+67 
+	#FORMAT_BASE
+(
+x
+è(
+FORMAT_BASE_MASK
+&(x))
+
+	)
+
+68 
+	#SET_FORMAT_BASE
+(
+x
+,
+t
+èdo{(x)&=~
+FORMAT_BASE_MASK
+;(x)|=Ñ);}0)
+
+	)
+
+70 
+	#do_div
+(
+n
+,
+ba£
+) ({ \
+
+71 
+__»s
+; \
+
+72 
+__»s
+ = ((è
+n
+è% (è
+ba£
+; \
+
+73 
+n
+ = ((ènè/ (è
+ba£
+; \
+
+74 
+__»s
+; })
+
+	)
+
+77 * 
+	$memýy
+(* 
+de¡
+,cÚ¡ *
+¤c
+,
+couÁ
+)
+
+79 *
+tmp
+ = (*è
+de¡
+, *
+s
+ = (*è
+¤c
+;
+
+80 
+couÁ
+--)
+
+81 *
+tmp
+++ = *
+s
+++;
+
+82  
+de¡
+;
+
+83 
+	}
+}
+
+85 *
+	$numb”
+(*
+¡r
+, 
+num
+,
+ba£
+,
+æags
+){
+
+86 
+i
+=0;
+
+87 
+sign
+=0;
+
+89 if(
+	`FORMAT_SIGNED
+(
+æags
+)&&(sigÃd )
+num
+<0){
+
+90 
+sign
+=1;
+
+91 
+num
+=~num+1;
+
+95 
+numb”s
+[
+i
+++]=
+dig™s
+[
+	`do_div
+(
+num
+,
+ba£
+)];
+
+96 }
+num
+!=0);
+
+99 if(
+	`FORMAT_BASE
+(
+æags
+)==
+FORMAT_BASE_O
+){
+
+100 
+numb”s
+[
+i
+++]='0';
+
+101 }if(
+	`FORMAT_BASE
+(
+æags
+)==
+FORMAT_BASE_X
+){
+
+102 
+numb”s
+[
+i
+++]='x';
+
+103 
+numb”s
+[
+i
+++]='0';
+
+104 }if(
+	`FORMAT_BASE
+(
+æags
+)==
+FORMAT_BASE_B
+){
+
+105 
+numb”s
+[
+i
+++]='b';
+
+106 
+numb”s
+[
+i
+++]='0';
+
+108 if(
+sign
+)
+
+109 
+numb”s
+[
+i
+++]='-';
+
+111 
+i
+-- > 0)
+
+112 *
+¡r
+++ = 
+numb”s
+[
+i
+];
+
+113  
+¡r
+;
+
+114 
+	}
+}
+
+116 
+	$fÜm©_decode
+(cÚ¡ *
+fmt
+,*
+æags
+){
+
+117 cÚ¡ *
+¡¬t
+ = 
+fmt
+;
+
+119 *
+æags
+ &ð~
+FORMAT_TYPE_MASK
+;
+
+120 *
+æags
+ |ð
+FORMAT_TYPE_NONE
+;
+
+121 ; *
+fmt
+ ; ++fmt) {
+
+122 ià(*
+fmt
+ == '%')
+
+126 ià(
+fmt
+ !ð
+¡¬t
+ || !*fmt)
+
+127  
+fmt
+ - 
+¡¬t
+;
+
+130 
+fmt
+++;
+
+131 *
+fmt
+){
+
+133 
+	`SET_FORMAT_FLAG
+(*
+æags
+,
+FORMAT_FLAG_WIDTH
+);
+
+140 
+	`SET_FORMAT_BASE
+(*
+æags
+,
+FORMAT_BASE_D
+);
+
+141 *
+fmt
+) {
+
+143 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_CHAR
+);
+
+147 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_STR
+);
+
+151 
+	`SET_FORMAT_BASE
+(*
+æags
+,
+FORMAT_BASE_O
+);
+
+152 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_UINT
+);
+
+157 
+	`SET_FORMAT_BASE
+(*
+æags
+,
+FORMAT_BASE_X
+);
+
+158 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_UINT
+);
+
+163 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_INT
+);
+
+164 
+	`SET_FORMAT_BASE
+(*
+æags
+,
+FORMAT_BASE_D
+);
+
+167 
+	`SET_FORMAT_TYPE
+(*
+æags
+,
+FORMAT_TYPE_UINT
+);
+
+168 
+	`SET_FORMAT_BASE
+(*
+æags
+,
+FORMAT_BASE_D
+);
+
+174  ++
+fmt
+-
+¡¬t
+;
+
+175 
+	}
+}
+
+177 
+	$v¢´štf
+(*
+buf
+, 
+size
+, cÚ¡ *
+fmt
+, 
+va_li¡
+ 
+¬gs
+){
+
+178 
+num
+;
+
+179 *
+¡r
+, *
+’d
+, 
+c
+,*
+s
+;
+
+180 
+»ad
+;
+
+181 
+¥ec
+=0;
+
+183 
+¡r
+ = 
+buf
+;
+
+184 
+’d
+ = 
+buf
+ + 
+size
+;
+
+186 ià(
+’d
+ < 
+buf
+) {
+
+187 
+’d
+ = ((*)-1);
+
+188 
+size
+ = 
+’d
+ - 
+buf
+;
+
+191 *
+fmt
+) {
+
+192 cÚ¡ *
+Þd_fmt
+ = 
+fmt
+;
+
+194 
+»ad
+ = 
+	`fÜm©_decode
+(
+fmt
+, &
+¥ec
+);
+
+195 
+fmt
+ +ð
+»ad
+;
+
+197 if((
+	`FORMAT_TYPE
+(
+¥ec
+))==
+FORMAT_TYPE_NONE
+){
+
+198 
+cÝy
+ = 
+»ad
+;
+
+199 ià(
+¡r
+ < 
+’d
+) {
+
+200 ià(
+cÝy
+ > 
+’d
+ - 
+¡r
+)
+
+201 
+cÝy
+ = 
+’d
+ - 
+¡r
+;
+
+202 
+	`memýy
+(
+¡r
+, 
+Þd_fmt
+, 
+cÝy
+);
+
+204 
+¡r
+ +ð
+»ad
+;
+
+206 }if(
+¥ec
+&
+FORMAT_FLAG_WIDTH
+){
+
+208 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_CHAR
+){
+
+209 
+c
+ = (è
+	`va_¬g
+(
+¬gs
+, );
+
+210 ià(
+¡r
+ < 
+’d
+)
+
+211 *
+¡r
+ = 
+c
+;
+
+212 ++
+¡r
+;
+
+213 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_STR
+){
+
+214 
+s
+ = (*è
+	`va_¬g
+(
+¬gs
+, *);
+
+215 
+¡r
+<
+’d
+&&*
+s
+!='\0'){
+
+216 *
+¡r
+++=*
+s
+++;
+
+219 if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_INT
+){
+
+220 
+num
+ = 
+	`va_¬g
+(
+¬gs
+, );
+
+221 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_ULONG
+){
+
+222 
+num
+ = 
+	`va_¬g
+(
+¬gs
+, );
+
+223 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_LONG
+){
+
+224 
+num
+ = 
+	`va_¬g
+(
+¬gs
+, );
+
+225 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_SIZE_T
+){
+
+226 
+num
+ = 
+	`va_¬g
+(
+¬gs
+, );
+
+227 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_USHORT
+){
+
+228 
+num
+ = (è
+	`va_¬g
+(
+¬gs
+, );
+
+229 }if(
+	`FORMAT_TYPE
+(
+¥ec
+)==
+FORMAT_TYPE_SHORT
+){
+
+230 
+num
+ = (è
+	`va_¬g
+(
+¬gs
+, );
+
+232 
+num
+ = 
+	`va_¬g
+(
+¬gs
+, );
+
+234 
+¡r
+=
+	`numb”
+(¡r,
+num
+,
+¥ec
+&
+FORMAT_BASE_MASK
+,spec);
+
+237 ià(
+size
+ > 0) {
+
+238 ià(
+¡r
+ < 
+’d
+)
+
+239 *
+¡r
+ = '\0';
+
+241 
+’d
+[-1] = '\0';
+
+243  
+¡r
+-
+buf
+;
+
+244 
+	}
+}
+
+247 
+	$__put_ch¬
+(*
+p
+,
+num
+){
+
+248 *
+p
+&&
+num
+--){
+
+249 *(vÞ©ž*)0xd0000020=*
+p
+++;
+
+251 
+	}
+}
+
+253 
+	$´štk
+(cÚ¡ *
+fmt
+, ...)
+
+255 
+va_li¡
+ 
+¬gs
+;
+
+256 
+i
+;
+
+258 
+	`va_¡¬t
+ (
+¬gs
+, 
+fmt
+);
+
+259 
+i
+ = 
+	`v¢´štf
+ (
+´št_buf
+, Õršt_buf),
+fmt
+, 
+¬gs
+);
+
+260 
+	`va_’d
+ (
+¬gs
+);
+
+262 
+	`__put_ch¬
+ (
+´št_buf
+,
+i
+);
+
+263 
+	}
+}
+
+265 
+	$‹¡_´štk
+(){
+
+266 *
+p
+="this is %sest";
+
+267 
+c
+='H';
+
+268 
+d
+=-256;
+
+269 
+k
+=0;
+
+270 
+	`´štk
+("testing…rintk\n");
+
+271 
+	`´štk
+("‹¡ sŒšg ::: %s\Áe¡ ch¬ ::: %c\Áe¡ dig™ ::: %d\Áe¡ X ::: %x\Áe¡ unsigÃd ::: %u\Áe¡ z”Ø::: %d\n",
+p
+,
+c
+,
+d
+,d,d,
+k
+);
+
+272 
+	}
+}
+
+	@
+1
+.
+1
+/usr/include
+3
+159
+/home/suweishuai/skyeye/learn_os/print_format/boot.c
+/home/suweishuai/skyeye/learn_os/print_format/mmu.c
+/home/suweishuai/skyeye/learn_os/print_format/print.c

@@ -1,0 +1,103 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ASFLAGS	Makefile	/^ASFLAGS= -O2 -g$/;"	m
+CC	Makefile	/^CC=arm-elf-gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS= -O2 -g$/;"	m
+FORMAT_BASE	print.c	67;"	d	file:
+FORMAT_BASE_B	print.c	65;"	d	file:
+FORMAT_BASE_D	print.c	64;"	d	file:
+FORMAT_BASE_MASK	print.c	61;"	d	file:
+FORMAT_BASE_O	print.c	62;"	d	file:
+FORMAT_BASE_X	print.c	63;"	d	file:
+FORMAT_FLAG	print.c	58;"	d	file:
+FORMAT_FLAG_LEFT	print.c	55;"	d	file:
+FORMAT_FLAG_MASK	print.c	52;"	d	file:
+FORMAT_FLAG_SPACE	print.c	53;"	d	file:
+FORMAT_FLAG_WIDTH	print.c	56;"	d	file:
+FORMAT_FLAG_ZEROPAD	print.c	54;"	d	file:
+FORMAT_SIGNED	print.c	50;"	d	file:
+FORMAT_TYPE	print.c	46;"	d	file:
+FORMAT_TYPE_CHAR	print.c	34;"	d	file:
+FORMAT_TYPE_INT	print.c	38;"	d	file:
+FORMAT_TYPE_LONG	print.c	40;"	d	file:
+FORMAT_TYPE_MASK	print.c	31;"	d	file:
+FORMAT_TYPE_NONE	print.c	33;"	d	file:
+FORMAT_TYPE_PTR	print.c	43;"	d	file:
+FORMAT_TYPE_SHORT	print.c	36;"	d	file:
+FORMAT_TYPE_SIGN_BIT	print.c	32;"	d	file:
+FORMAT_TYPE_SIZE_T	print.c	44;"	d	file:
+FORMAT_TYPE_STR	print.c	42;"	d	file:
+FORMAT_TYPE_UCHAR	print.c	35;"	d	file:
+FORMAT_TYPE_UINT	print.c	39;"	d	file:
+FORMAT_TYPE_ULONG	print.c	41;"	d	file:
+FORMAT_TYPE_USHORT	print.c	37;"	d	file:
+IO_MAP_SIZE	mmu.c	19;"	d	file:
+L1_PTR_BASE_ADDR	mmu.c	13;"	d	file:
+LD	Makefile	/^LD=arm-elf-ld$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS=-Tleeos.lds -Ttext 30000000$/;"	m
+MEM_MAP_SIZE	mmu.c	16;"	d	file:
+OBJCOPY	Makefile	/^OBJCOPY=arm-elf-objcopy$/;"	m
+OBJS	Makefile	/^OBJS=init.o start.o boot.o abnormal.o mmu.o print.o$/;"	m
+PAGE_TABLE_L1_BASE_ADDR_MASK	mmu.c	2;"	d	file:
+PHYSICAL_IO_ADDR	mmu.c	17;"	d	file:
+PHYSICAL_MEM_ADDR	mmu.c	14;"	d	file:
+PTE_ALL_AP_L1_SECTION_DEFAULT	mmu.c	8;"	d	file:
+PTE_BITS_L1_SECTION	mmu.c	11;"	d	file:
+PTE_L1_SECTION_DOMAIN_DEFAULT	mmu.c	7;"	d	file:
+PTE_L1_SECTION_NO_CACHE_AND_WB	mmu.c	6;"	d	file:
+PTE_L1_SECTION_PADDR_BASE_MASK	mmu.c	10;"	d	file:
+SET_FORMAT_BASE	print.c	68;"	d	file:
+SET_FORMAT_FLAG	print.c	59;"	d	file:
+SET_FORMAT_TYPE	print.c	47;"	d	file:
+UFCON0	boot.c	3;"	d	file:
+VIRTUAL_IO_ADDR	mmu.c	18;"	d	file:
+VIRTUAL_MEM_ADDR	mmu.c	15;"	d	file:
+VIRT_TO_PTE_L1_INDEX	mmu.c	4;"	d	file:
+_INTSIZEOF	print.c	21;"	d	file:
+__put_char	print.c	/^static void __put_char(char *p,int num){$/;"	f	file:	signature:(char *p,int num)
+__vector_data_abort	abnormal.s	/^__vector_data_abort:$/;"	l
+__vector_fiq	abnormal.s	/^__vector_fiq:$/;"	l
+__vector_irq	abnormal.s	/^__vector_irq:$/;"	l
+__vector_prefetch_abort	abnormal.s	/^__vector_prefetch_abort:$/;"	l
+__vector_reserved	abnormal.s	/^__vector_reserved:$/;"	l
+__vector_reset	init.s	/^__vector_reset:$/;"	l
+__vector_swi	abnormal.s	/^__vector_swi:$/;"	l
+__vector_undefined	abnormal.s	/^__vector_undefined:$/;"	l
+_clear_bss	init.s	/^_clear_bss:$/;"	l
+_main	init.s	/^_main:$/;"	l
+_start	start.s	/^_start:$/;"	l
+_vector_data_abort	start.s	/^_vector_data_abort:	.word	__vector_data_abort$/;"	l
+_vector_fiq	start.s	/^_vector_fiq:	.word	__vector_fiq$/;"	l
+_vector_irq	start.s	/^_vector_irq:	.word	__vector_irq$/;"	l
+_vector_prefetch_abort	start.s	/^_vector_prefetch_abort:	.word	__vector_prefetch_abort$/;"	l
+_vector_reserved	start.s	/^_vector_reserved:	.word	__vector_reserved$/;"	l
+_vector_reset	start.s	/^_vector_reset:	.word	__vector_reset$/;"	l
+_vector_swi	start.s	/^_vector_swi:	.word	__vector_swi$/;"	l
+_vector_undefined	start.s	/^_vector_undefined:	.word	__vector_undefined$/;"	l
+digits	print.c	/^const char *digits="0123456789abcdef";$/;"	v
+do_div	print.c	70;"	d	file:
+format_decode	print.c	/^static int format_decode(const char *fmt,unsigned int *flags){$/;"	f	file:	signature:(const char *fmt,unsigned int *flags)
+gen_l1_pte	mmu.c	/^unsigned int gen_l1_pte(unsigned int paddr){$/;"	f	signature:(unsigned int paddr)
+gen_l1_pte_addr	mmu.c	/^unsigned int gen_l1_pte_addr(unsigned int baddr,\\$/;"	f	signature:(unsigned int baddr,\ unsigned int vaddr)
+helloworld	boot.c	/^void helloworld(void){$/;"	f	signature:(void)
+init	boot.c	/^static init_func init[]={$/;"	v	file:
+init_func	boot.c	/^typedef void (*init_func)(void);$/;"	t	file:
+init_sys_mmu	mmu.c	/^void init_sys_mmu(void){$/;"	f	signature:(void)
+memcpy	print.c	/^static void * memcpy(void * dest,const void *src,unsigned int count)$/;"	f	file:	signature:(void * dest,const void *src,unsigned int count)
+number	print.c	/^static char *number(char *str, int num,int base,unsigned int flags){$/;"	f	file:	signature:(char *str, int num,int base,unsigned int flags)
+numbers	print.c	/^char numbers[68];$/;"	v
+plat_boot	boot.c	/^void plat_boot(void){$/;"	f	signature:(void)
+print_buf	print.c	/^static char print_buf[1024];$/;"	v	file:
+printk	print.c	/^void printk(const char *fmt, ...)$/;"	f	signature:(const char *fmt, ...)
+start_mmu	mmu.c	/^void start_mmu(void){$/;"	f	signature:(void)
+test_mmu	boot.c	/^void test_mmu(void){$/;"	f	signature:(void)
+test_printk	print.c	/^void test_printk(void){$/;"	f	signature:(void)
+va_arg	print.c	23;"	d	file:
+va_end	print.c	24;"	d	file:
+va_list	print.c	/^typedef char * va_list;$/;"	t	file:
+va_start	print.c	22;"	d	file:
+vsnprintf	print.c	/^static int vsnprintf(char *buf, int size, const char *fmt, va_list args){$/;"	f	file:	signature:(char *buf, int size, const char *fmt, va_list args)
