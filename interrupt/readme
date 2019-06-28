@@ -1,0 +1,172 @@
+中断:
+    1. 中断向量表
+        可以通过修改 cp15 的 C1 中的 bit 13
+        对于支持高端异常向量表的系统，本控制位控制向量表的位置
+        0 ：选择低端异常中断向量 0x0~0x1c
+        1 ：选择高端异常中断向量 0xffff0000~ 0xffff001c
+        对于不支持高端异常向量表的系统，读取时该位返回0，写入时忽略
+
+        _start:  /*异常向量表的首地址*/
+
+        	ldr	pc,_vector_reset            /*0x00*/ /*复位发生*/   /*管理模式*/   /*独立的r13 r14 spsr*/       /*ARM 状态*/
+        	ldr pc,_vector_undefined        /*0x04*/ /*UND发生*/    /*未定义模式*/ /*独立的r13 r14 spsr*/
+        	ldr pc,_vector_swi              /*0x08*/ /*SWI发生*/    /*管理模式*/
+        	ldr pc,_vector_prefetch_abort   /*0x0C*/ /*ABT发生*/    /*中止模式*/   /*独立的r13 r14 spsr*/
+        	ldr pc,_vector_data_abort       /*0x10*/ /*ABT发生*/    /*中止模式*/
+        	ldr pc,_vector_reserved         /*0x14*/
+        	ldr pc,_vector_irq              /*0x18*/ /*IRQ发生*/    /*中断模式*/   /*独立的r13 r14 spsr*/
+        	ldr pc,_vector_fiq              /*0x1C*/ /*FIQ发生*/    /*快中断模式*/ /*独立的r8-r12 r13 r14 spsr*/
+                                                     /*异常返回*/   /*用户模式*/   /*r0-r15 cpsr*/
+                                                     /*???*/        /*系统模式*/   /*同用户模式的所有寄存器(r0-r15 cpsr)*/
+
+    2. 中断源
+        中断引脚上来的中断
+        非中断引脚 : 内部中断
+    3. 中断流程
+        1. 中断产生流程
+            1. 通过终端请求路径传递中断,路径中对应的寄存器都要设置
+                1.1 中断源 -> SRCPND -> INTMSK -> INTMOD -> PRIORITY -> INTPND -> 产生IRQ
+                    主中断产生的时候,结果保存到中断寄存器的 SRCPND ,SRCPND 响应为被置 1 ,可多位置1
+                    中断控制器将 SRCPND 中的内容送去 INTMSK(需软件初始化) 做屏蔽检测, INTMSK 对应为为0,才会被传到下一级
+                    中断控制器将 通过屏蔽检测 的 送到 INTMOD(需软件初始化) 寄存器 做模式判断,判断为 IRQ(为0,则产生) 还是 FIQ(为1,则产生)
+                    如果为 FIQ , 则 直接产生中断.中断产生流程结束.如果为 IRQ,则送到 PRIORITY 做 中断优先级的检测
+                    IRQ(可能是多个) 到达 PRIORITY(需软件初始化) , 中断控制器会在此阶段选择一个优先级最高的中断请求送往 INTPND
+                    一个IRQ到达INTPND,INTPND中的一位被置位.同时,CPU会立刻产生一个 IRQ 中断.中断产生流程结束.
+                1.2 中断初始化需要初始化的寄存器
+                    INTMSK   : 屏蔽检测 . 0 才会过
+                    INTMOD   : 模式(IRQ/FIQ)判断 . 0:IRQ 1:FIQ
+                    PRIORITY : 中断优先级
+                1.3 中断产生流程中被修改的寄存器
+                    SRCPND : 可同时多位置 1
+                    INTPND : 不可同时多位置1
+            2. 如果能被正确处理,下一次中断才会正常发生
+                2.1 求出中断请求
+                    INTPND
+                    INTOFFSET : 中断标志位,供程序员写
+                2.2 根据中断请求打开相应的中断请求响应位,也就是清中断
+                    中断处理软件中需被修改的寄存器
+                    SRCPND : 对应的位更改为0
+                    INTPND : 对应的位更改为0
+        2. 中断处理流程 硬件相关
+            2.1 保存 cpsr 与 pc
+                1. 将   cspr 保存到 spsr_irq
+                2. 将   pc   保存到 lr_irq
+            2.2 修改 cpsr 与 pc
+                3. 设置 cpsr bit0-bit4(模式位) 为 10010 // 中断模式
+                4. 设置 cpsr bit5 为 1 // 工作状态位    : ARM
+                5. 设置 cpsr bit6 为 1 // FIQ中断禁止位 : 使能
+                6. 设置 cpsr bit7 为 1 // IRQ中断禁止位 : 使能
+                7. 设置 pc   寄存器的值 为 0x18 或者 0xffff0018 // 向量表 irq 入口
+        3. 中断处理流程 软件相关
+            1. 中断向量表的设置 代码
+                _start:
+                	ldr	pc,_vector_reset
+                	ldr pc,_vector_undefined
+                	ldr pc,_vector_swi
+                	ldr pc,_vector_prefetch_abort
+                	ldr pc,_vector_data_abort
+                	ldr pc,_vector_reserved
+                	ldr pc,_vector_irq
+                	ldr pc,_vector_fiq
+
+                	.align 4
+
+                _vector_reset:	.word	__vector_reset
+                _vector_undefined:	.word	__vector_undefined
+                _vector_swi:	.word	__vector_swi
+                _vector_prefetch_abort:	.word	__vector_prefetch_abort
+                _vector_data_abort:	.word	__vector_data_abort
+                _vector_reserved:	.word	__vector_reserved
+                _vector_irq:	.word	__vector_irq
+                _vector_fiq:	.word	__vector_fiq
+
+                __vector_irq:
+                	sub r14,r14,#4 // r14 即 lr_irq 的值是中断硬件动作之前最后状态 pc 中的值,但此pc的值并不是终端返回要运行的指令的地址,它的值比终端返回地址值大4
+                                   // 而 r14 要被保存到栈并恢复到 pc 中,不可能在恢复时减4
+                                   // 所以 直接将其减4
+                	stmfd r13!,{r0-r3,r14}
+                                   // 将r0 r1 r2 r3 r14 5个寄存器中的值保存到堆栈中 // ??? 为什么是 5个 ?
+                	bl common_irq_handler
+                                   // 修改 r14 , 并跳转
+                	ldmfd r13!,{r0-r3,pc}^
+                                   // 在中断模式下将 堆栈中的值
+                                   // 存放的r0 -> r0
+                                   // 存放的r1 -> r1
+                                   // 存放的r2 -> r2
+                                   // 存放的r3 -> r3
+                                   // 存放的r14 -> pc
+                                   // 并将 spsr_irq -> cpsr , 这一行替换执行完就到了之前的工作模式,并 开中断 // 这一行是不是也将 irq模式 下的 cpsr -> spsr_usr/spsr_sys
+
+            2. 中断向量表的设置 链接文件
+                OUTPUT_ARCH(arm)
+                ENTRY(_start)
+
+                SECTIONS
+                {
+                	. = 0x00000000;
+                	.text :
+                	{
+                		*(.startup)
+                		*(.text)
+                	}
+                	. = ALIGN(32);
+
+                	.data :
+                	{
+                		*(.data)
+                	}
+
+                	. = ALIGN(32);
+                	__bss_start__	= .;
+                	.bss :
+                	{
+                		*(.bss)
+                	}
+                	__bss_end__ = .;
+                }
+
+            3. 中断配置
+                // 清除相应中断的屏蔽位
+                void umask_int(unsigned int offset){
+                	*(volatile unsigned int *)INTMSK&=~(1<<offset);
+                }
+
+                // 清除 cpsr 中的 I 位,全局使能中断
+                void enable_irq(void){
+                	asm volatile (
+                		"mrs r4,cpsr\n\t"
+                		"bic r4,r4,#0x80\n\t"
+                		"msr cpsr,r4\n\t"
+                		:::"r4"
+                	);
+                }
+
+            4. 读 寄存器 INTOFFSER ,看是哪个硬件产生了中断请求.
+               清 中断标志位 SRCPND 和 INTPND
+               do something
+
+                void common_irq_handler(void){
+                	unsigned int tmp=(1<<(*(volatile unsigned int *)INTOFFSET));
+                	printk("%d\t",*(volatile unsigned int *)INTOFFSET);
+                	*(volatile unsigned int *)SRCPND|=tmp;
+                	*(volatile unsigned int *)INTPND|=tmp;
+                	printk("do something\n");
+                }
+
+
+    4. 中断相关寄存器
+        3.1 中断初始化需要初始化的寄存器
+            INTMSK   : 屏蔽检测 . 0 才会过
+            INTMOD   : 模式(IRQ/FIQ)判断 . 0:IRQ 1:FIQ
+            PRIORITY : 中断优先级
+        3.2 中断产生流程中被修改的寄存器
+            SRCPND : 可同时多位置 1
+            INTPND : 不可同时多位置1
+        3.3 求出中断请求
+            INTOFFSET : 中断标志位,供程序员写
+        3.4 根据中断请求打开相应的中断请求响应位,也就是清中断
+            中断处理软件中需被修改的寄存器
+            SRCPND : 对应的位更改为0
+            INTPND : 对应的位更改为0
+        3.5 中断总开关
+            cpsr bit7 : 为 0 开中断,为 1 关中断
