@@ -1,0 +1,25 @@
+buddy:
+    优势:
+        能避免内部碎片
+            申请的时候系统提供最小的,归还的时候会合并没有使用的
+    劣势:
+        但会造成外部碎片
+            如果buddy 管理的 最小单位是一个页大小,外部碎片不会超过 一个页大小(4KB)
+    概念:
+        buddy算法中 处理 的 几个页(2^N个) 附近的 struct page 叫做 buddy
+
+buddy ops:
+    1. 初始化
+        初始化 0x605 个 struct page , 并 指向 kernel paging.
+        将 struct page 数量 分为 N个2^8 ,绑定到 page_buddy[8] 上. // 8 为 阶次
+        剩余的 struct page 绑定到 page_buddy[0] 上 // 0 为阶次
+    2. 申请
+        去查看 对应阶次N 的 page_buddy 成员
+            如果存在,则将 page_buddy成员链表上的 2^N 个 struct page 卸载,交给 用户
+            如果存在,则 转向更高阶次
+                如果不存在,转向更高阶次
+                如果存在,则卸载到下一阶次,并将部分 struct page 交给用户
+    3. 归还
+        直接归还,如果左右两边有空的,合并.直到两边都是已经当前被使用的
+
+
