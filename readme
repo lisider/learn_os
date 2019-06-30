@@ -16,3 +16,5 @@
     汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现
 9. slab
     汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现 + 小块内存管理slab算法实现
+10. ram_driver
+    汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现 + 小块内存管理slab算法实现 + ramdisk创建及ramdisk driver 驱动
