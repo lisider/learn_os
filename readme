@@ -24,5 +24,7 @@
     汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现 + 小块内存管理slab算法实现 + ramdisk创建及ramdisk driver 驱动 + fs框架及romfs具体实现(通过文件路径读写内容) + 在ramdisk中添加app_bin,并读取执行app_bin
 13. app_elf
     汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现 + 小块内存管理slab算法实现 + ramdisk创建及ramdisk driver 驱动 + fs框架及romfs具体实现(通过文件路径读写内容) + 在ramdisk中添加 app_elf,并读取执行app_elf
+14. syscall
+    汇编启动初始化代码 + 开MMU + 打印格式化封包 + 中断初始化 + timer4 初始化 + 内存管理buddy算法实现 + 小块内存管理slab算法实现 + ramdisk创建及ramdisk driver 驱动 + fs框架及romfs具体实现(通过文件路径读写内容) + 在ramdisk中添加 app_elf,并读取执行app_elf + app内实现 syscall(封装svc/swi) 内核实现 swi 异常处理
 
 
