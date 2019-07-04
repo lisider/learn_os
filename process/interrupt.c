@@ -45,7 +45,7 @@ void umask_int(unsigned int offset){
 }
 
 void common_irq_handler(void){
-    printk("8\n");
+    printk("\n\n---\n\n");
 	//unsigned int tmp=(1<<(*(volatile unsigned int *)INTOFFSET));
     //printk("%d\n",*(volatile unsigned int *)INTOFFSET);
 //	*(volatile unsigned int *)SRCPND|=tmp;

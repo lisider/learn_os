@@ -25,7 +25,6 @@ typedef char * va_list;
 const char *digits="0123456789abcdef";
 char numbers[68];
 
-static char print_buf[1024];
 
 #define FORMAT_TYPE_MASK	0xff00
 #define FORMAT_TYPE_SIGN_BIT	0x0100
@@ -98,7 +97,7 @@ char *number(char *str, int num,int base,unsigned int flags){
 	do{
 		numbers[i++]=digits[do_div(num,base)];
 	}while(num!=0);
-	
+
 
 	if(FORMAT_BASE(flags)==FORMAT_BASE_O){
 		numbers[i++]='0';
@@ -140,7 +139,7 @@ int format_decode(const char *fmt,unsigned int *flags){
 				break;
 		}
 	}while(0);
-	
+
 	SET_FORMAT_BASE(*flags,FORMAT_BASE_D);
 	switch (*fmt) {
 		case 'c':
@@ -247,10 +246,25 @@ int vsnprintf(char *buf, int size, const char *fmt, va_list args){
 	return str-buf;
 }
 
+#define NULL (void *)0
+
+void *memset(void *s, int c, int n)
+{
+    if (NULL == s || n < 0)
+        return NULL;
+    char * tmpS = (char *)s;
+    while(n-- > 0)
+        *tmpS++ = c;
+    return s;
+
+}
+
 void printk(const char *fmt, ...)
 {
 	va_list args;
 	unsigned int i;
+
+	char print_buf[256] = {0};
 
 	va_start (args, fmt);
 	i = vsnprintf (print_buf, sizeof(print_buf),fmt, args);
