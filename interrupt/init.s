@@ -43,6 +43,9 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 .extern __bss_end__
 
 __vector_reset:
+    ldr	sp,=_SVC_STACK
+    bl print_flush /* 0x600000d3  0110 0000  0000 0000  0000 0000  1101 0011 // 禁止IRQ 禁止FIQ ARM 状态 管理模式 */
+    bl print_cpsr /* 0x600000d3  0110 0000  0000 0000  0000 0000  1101 0011 // 禁止IRQ 禁止FIQ ARM 状态 管理模式 */
     /* 复位后直接进入 管理模式 */
     /* 默认 IRQ FIQ 开启 , ARM 状态*/
     msr cpsr_c,#(DISABLE_IRQ|DISABLE_FIQ|SVC_MOD)

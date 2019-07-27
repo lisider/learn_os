@@ -75,8 +75,14 @@ int get_cpsr(void){
     return tmp;
 }
 
+extern void printf(const char *fmt, ...);
+
 void print_cpsr(void){
     printf("get_cpsr:%x\n",get_cpsr());
+}
+
+void print_flush(void){
+    printf("\n");
 }
 
 int get_r3(void){
